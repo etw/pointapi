@@ -1,11 +1,11 @@
 package pointapi
 
 import (
-	"net/http"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"errors"
+	"net/http"
 )
 
 const apiPrefix = "https://point.im/api"
