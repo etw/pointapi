@@ -1,11 +1,11 @@
 package pointapi
 
 import (
-	"net/http"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
-	"errors"
+	"net/http"
 )
 
 const apiPrefix = "https://point.im/api"
@@ -22,23 +22,23 @@ func New(c *http.Client, a *string) *PointAPI {
 	return api
 }
 
-func (api *PointAPI) metaGet(s string) (map[string]interface{}, error) {
-	var resmap map[string]interface{}
+func (api *PointAPI) metaGet(s string) (PostList, error) {
+	var resmap PostList
 	resp, err := api.httpClient.Get(fmt.Sprint(apiPrefix, s))
 	if err != nil {
-		return nil, err
+		return resmap, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(resp.Status)
+		return resmap, errors.New(resp.Status)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return resmap, err
 	}
 	err = json.Unmarshal(body, &resmap)
 	if err != nil {
-		return nil, err
+		return resmap, err
 	}
 	return resmap, nil
 }
