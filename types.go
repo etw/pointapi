@@ -4,11 +4,13 @@ import (
 	"time"
 )
 
+// Struct with list of posts objects
 type PostList struct {
 	HasNext bool       `json:"has_next"`
 	Posts   []PostMeta `json:"posts"`
 }
 
+// Struct with post metadata
 type PostMeta struct {
 	Bookmarked  bool     `json:"bookmarked"`
 	Uid         int      `json:"uid"`
@@ -18,6 +20,7 @@ type PostMeta struct {
 	Post        PostData `json:"post"`
 }
 
+// Struct with post data
 type PostData struct {
 	Tags          []string   `json:"tags"`
 	CommentsCount int        `json:"comments_count"`
@@ -29,6 +32,7 @@ type PostData struct {
 	Private       bool       `json:"private"`
 }
 
+// Struct with info about user
 type PostAuthor struct {
 	Login  string `json:"login"`
 	Id     int    `json:"id"`
