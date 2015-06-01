@@ -26,23 +26,23 @@ func New(c *http.Client, a *string) *PointAPI {
 }
 
 // Private metamethod for talking to point.im API
-func (api *PointAPI) metaGet(s string) (PostList, error) {
+func (api *PointAPI) metaGet(s *string) (*PostList, error) {
 	var resmap PostList
-	resp, err := api.httpClient.Get(fmt.Sprint(apiPrefix, s))
+	resp, err := api.httpClient.Get(fmt.Sprint(apiPrefix, *s))
 	if err != nil {
-		return resmap, err
+		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return resmap, errors.New(resp.Status)
+		return nil, errors.New(resp.Status)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return resmap, err
+		return nil, err
 	}
 	err = json.Unmarshal(body, &resmap)
 	if err != nil {
-		return resmap, err
+		return nil, err
 	}
-	return resmap, nil
+	return &resmap, nil
 }
