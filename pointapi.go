@@ -11,22 +11,22 @@ import (
 // Prefix for point.im API endpoints
 const apiPrefix = "https://point.im/api"
 
-// PointAPI object
-type PointAPI struct {
+// API object
+type API struct {
 	httpClient *http.Client
 	auth       *string
 }
 
 // Returns new PointAPI object
-func New(c *http.Client, a *string) *PointAPI {
-	api := new(PointAPI)
+func New(c *http.Client, a *string) *API {
+	api := new(API)
 	api.httpClient = c
 	api.auth = a
 	return api
 }
 
 // Private metamethod for talking to point.im API
-func (api *PointAPI) metaGet(s *string) (*PostList, error) {
+func (api *API) metaGet(s *string) (*PostList, error) {
 	var resmap PostList
 
 	req, err := http.NewRequest("GET", fmt.Sprint(apiPrefix, *s), nil)
@@ -41,14 +41,17 @@ func (api *PointAPI) metaGet(s *string) (*PostList, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
+
 	if resp.StatusCode != http.StatusOK {
 		return nil, errors.New(resp.Status)
 	}
-	defer resp.Body.Close()
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
+
 	err = json.Unmarshal(body, &resmap)
 	if err != nil {
 		return nil, err
