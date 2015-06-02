@@ -25,11 +25,12 @@ type PostData struct {
 	Tags          []string   `json:"tags"`
 	CommentsCount int        `json:"comments_count"`
 	Author        PostAuthor `json:"author"`
-	Text          string     `json:"text"`
 	Created       time.Time  `json:"created"`
 	Type          string     `json:"type"`
 	Id            string     `json:"id"`
 	Private       bool       `json:"private"`
+	Files         []string   `json:"files"`
+	Text          string     `json:"text"`
 }
 
 // Struct with info about user
