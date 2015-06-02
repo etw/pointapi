@@ -28,7 +28,16 @@ func New(c *http.Client, a *string) *PointAPI {
 // Private metamethod for talking to point.im API
 func (api *PointAPI) metaGet(s *string) (*PostList, error) {
 	var resmap PostList
-	resp, err := api.httpClient.Get(fmt.Sprint(apiPrefix, *s))
+
+	req, err := http.NewRequest("GET", fmt.Sprint(apiPrefix, *s), nil)
+	if err != nil {
+		return nil, err
+	}
+	if api.auth != nil {
+		req.Header.Set("Authorization", *api.auth)
+	}
+
+	resp, err := api.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
