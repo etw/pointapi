@@ -9,7 +9,10 @@ import (
 )
 
 // Prefix for point.im API endpoints
-const POINTIM = "https://point.im/api"
+const (
+	POINTIM  = "https://point.im"
+	POINTAPI = "https://point.im/api"
+)
 
 // API object
 type API struct {
@@ -28,8 +31,8 @@ func New(c *http.Client, p string, a *string) *API {
 }
 
 // Private metamethod for talking to point.im API
-func (api *API) metaGet(s *string) (*PostList, error) {
-	var resmap PostList
+func (api *API) metaGet(s *string) (p *PostList, e error) {
+	p = new(PostList)
 
 	if req, err := http.NewRequest("GET", fmt.Sprint(api.prefix, *s), nil); err != nil {
 		return nil, err
@@ -50,12 +53,12 @@ func (api *API) metaGet(s *string) (*PostList, error) {
 			if body, err := ioutil.ReadAll(resp.Body); err != nil {
 				return nil, err
 			} else {
-				if json.Unmarshal(body, &resmap) != nil {
+				if json.Unmarshal(body, p) != nil {
 					return nil, err
 				}
 			}
 		}
 	}
 
-	return &resmap, nil
+	return p, nil
 }
