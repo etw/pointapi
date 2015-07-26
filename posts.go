@@ -2,6 +2,7 @@ package pointapi
 
 import (
 	"fmt"
+	"text/template"
 	"strings"
 )
 
@@ -13,6 +14,10 @@ func (api *API) GetAll(before int) (*PostList, error) {
 
 // Method to get posts filtered by tags
 func (api *API) GetTags(before int, tags []string) (*PostList, error) {
-	path := fmt.Sprintf("/tags?before=%d&tag=%s", before, strings.Join(tags, "&tag="))
+	var esctags []string
+	for _, v := range tags {
+		esctags = append(esctags, template.URLQueryEscaper(v))
+	}
+	path := fmt.Sprintf("/tags?before=%d&tag=%s", before, strings.Join(esctags, "&tag="))
 	return api.metaGet(&path)
 }
