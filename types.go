@@ -1,8 +1,6 @@
 package pointapi
 
-import (
-	"time"
-)
+const POINTTIMELAYOUT = "2006-01-02T15:04:05.999999"
 
 // Struct with list of posts objects
 type PostList struct {
@@ -25,7 +23,7 @@ type PostData struct {
 	Tags          []string   `json:"tags"`
 	CommentsCount int        `json:"comments_count"`
 	Author        PostAuthor `json:"author"`
-	Created       time.Time  `json:"created"`
+	Created       string     `json:"created"`
 	Type          string     `json:"type"`
 	Id            string     `json:"id"`
 	Private       bool       `json:"private"`
