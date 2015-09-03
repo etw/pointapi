@@ -2,8 +2,8 @@ package pointapi
 
 import (
 	"fmt"
-	"text/template"
 	"strings"
+	"text/template"
 )
 
 // Method to get posts form https://point.im/all

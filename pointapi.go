@@ -53,7 +53,7 @@ func (api *API) metaGet(s *string) (p *PostList, e error) {
 			if body, err := ioutil.ReadAll(resp.Body); err != nil {
 				return nil, err
 			} else {
-				if json.Unmarshal(body, p) != nil {
+				if err := json.Unmarshal(body, p); err != nil {
 					return nil, err
 				}
 			}
